@@ -1,6 +1,6 @@
 # Ejercicio 6 - Estadísticas de notas por estudiante
 
-
+import os
 def grades_stats(filename):
     """
     Lee un archivo donde cada línea tiene el formato:
@@ -34,4 +34,22 @@ def grades_stats(filename):
             "Cami": (10.0, 10.0, 10.0),
         }
     """
-    pass  # Reemplazar con tu implementación
+    diccionario = {}
+    if not os.path.exists(filename):
+        raise FileNotFoundError
+    with open(filename,"r") as file:
+        lineas = file.readlines()
+        for linea in lineas:
+            if linea != "" and ":" in linea:
+               lista = linea.split(":")
+               nombre = lista[0]
+               numeros = lista[1].split(",")
+               notas = []
+               for numero in numeros:
+                   numero_string = float(numero.strip())
+                   notas.append(numero_string)
+               promedio = sum(notas) / len(notas)
+               maximo = max(notas)
+               minimo = min(notas)
+               diccionario[nombre] = (promedio, maximo, minimo)
+        return diccionario

@@ -1,6 +1,6 @@
 # Ejercicio 10 - Parser de archivos de log
 
-
+import os
 def parse_log(filename):
     """
     Lee un archivo de log donde cada línea tiene el formato:
@@ -42,4 +42,31 @@ def parse_log(filename):
             "WARN": ["lento"],
         }
     """
-    pass  # Reemplazar con tu implementación
+    if not os.path.exists(filename):
+        raise FileNotFoundError
+
+    diccionario = {}
+
+    with open(filename, "r") as file:
+        lineas = file.readlines()
+        for linea in lineas:
+            linea_limpia = linea.strip()
+
+            # Filtro: Solo trabajamos si la línea tiene algo
+            if linea_limpia:
+
+                # Validación de formato
+                if ":" not in linea_limpia:
+                    # REGLA: El mensaje debe ser exacto
+                    raise ValueError("invalid log line")
+
+                # Procesamiento
+                lista = linea_limpia.split(":", 1)
+                tipo = lista[0].strip()
+                mensaje = lista[1].strip()
+
+                # Lógica del diccionario
+                if tipo not in diccionario:
+                    diccionario[tipo] = []
+                diccionario[tipo].append(mensaje)
+    return diccionario

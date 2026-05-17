@@ -1,6 +1,6 @@
 # Ejercicio 9 - Combinar dos archivos
 
-
+import os
 def merge_files(file1, file2, output):
     """
     Lee file1 y file2 y escribe su concatenación (primero file1, luego
@@ -32,4 +32,15 @@ def merge_files(file1, file2, output):
         # hola
         # mundo
     """
-    pass  # Reemplazar con tu implementación
+    if not os.path.exists(file1) or not os.path.exists(file2):
+        raise FileNotFoundError
+    with open(file1,"r") as fl1:
+        contenido1 = fl1.read()
+    with open(file2,"r") as fl2:
+        contenido2 = fl2.read()
+    with open(output,"w") as out:
+        out.write(contenido1)
+        out.write(contenido2)
+
+
+
